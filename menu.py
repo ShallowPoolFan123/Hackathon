@@ -6,7 +6,7 @@ import time
 
 app = Ursina()
 
-#music = Audio('', loop=True, autoplay=True)
+music = Audio('assets/bossTime.mp3', loop=True, autoplay=True)
 
 background = Entity(
     parent = camera.ui,
