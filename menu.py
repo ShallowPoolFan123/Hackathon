@@ -57,7 +57,18 @@ mainButton = Button(
     text_size = 1.5,
 )
 
+def exitGame():
+    quit()
+
+quitButton = Button(
+    text = 'Quit',
+    color=color.red,
+    origin=(0,-1),
+    scale=(.3,.2),
+    text_size=1.5
+)
 creditsButton._on_click = startCredits
 mainButton._on_click = startGame
+quitButton._on_click = exitGame
 
 app.run()
