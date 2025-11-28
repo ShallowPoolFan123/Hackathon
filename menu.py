@@ -18,7 +18,6 @@ def startCredits():
     print("Attempting to start external credits...")
 
     python_executable = sys.executable
-    script_path = os.path.join(os.path.dirname(__file__), 'Credits.py')
     script_path = os.path.join(os.path.dirname(__file__), 'credits.py')
 
     try:
