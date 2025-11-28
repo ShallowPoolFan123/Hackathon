@@ -1,7 +1,5 @@
 from ursina import *
-import subprocess
-import sys
-import os
+
 
 
 app = Ursina()
