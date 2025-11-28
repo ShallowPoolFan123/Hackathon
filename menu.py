@@ -34,6 +34,28 @@ creditsButton = Button(
     text_size = 1.5,
 )
 
+def startGame():
+
+    print("Attempting to start game...")
+
+    python_executable = sys.executable
+    script_path = os.path.join(os.path.dirname(__file__), 'main.py')
+
+    try:
+        subprocess.Popen([python_executable, script_path])
+        print("External program launched.")
+    except Exception as e:
+        print(f"Failed to launch program: {e}")
+
+mainButton = Button(
+    text = "Play Game",
+    color = color.green,
+    origin = (-2, 0),
+    scale = (0.3,0.2),
+    text_size = 1.5,
+)
+
 creditsButton._on_click = startCredits
+mainButton._on_click = startGame
 
 app.run()
