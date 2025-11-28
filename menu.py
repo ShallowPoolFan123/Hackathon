@@ -5,10 +5,12 @@ import os
 
 app = Ursina()
 
+#music = Audio('', loop=True, autoplay=True)
+
 background = Entity(
     parent = camera.ui,
     model = 'quad',
-    color = color.red,
+    texture = 'assets/background.png', 
     scale = (window.aspect_ratio, 1),
     position = (0, 0)
 )
@@ -46,6 +48,7 @@ def startGame():
     try:
         subprocess.Popen([python_executable, script_path])
         print("External program launched.")
+        quit()
     except Exception as e:
         print(f"Failed to launch program: {e}")
 
