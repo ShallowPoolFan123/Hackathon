@@ -19,12 +19,15 @@ def startCredits():
 
     python_executable = sys.executable
     script_path = os.path.join(os.path.dirname(__file__), 'Credits.py')
+    script_path = os.path.join(os.path.dirname(__file__), 'credits.py')
 
     try:
         subprocess.Popen([python_executable, script_path])
         print("External program launched.")
+        quit()
     except Exception as e:
         print(f"Failed to launch program: {e}")
+    
 
 creditsButton = Button(
     text = "Play Credits",
