@@ -68,6 +68,7 @@ quitButton = Button(
     color=color.red,
     origin=(-2,-1.5),
     scale=(.3,.2),
+    pressed_sound = 'assets/sword_slash.mp3',
     text_size=1.5
 )
 creditsButton._on_click = startCredits
