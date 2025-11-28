@@ -66,7 +66,7 @@ def exitGame():
 quitButton = Button(
     text = 'Quit',
     color=color.red,
-    origin=(0,-1),
+    origin=(-2,-1.5),
     scale=(.3,.2),
     text_size=1.5
 )
