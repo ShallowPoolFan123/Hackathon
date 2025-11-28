@@ -29,9 +29,9 @@ def startCredits():
 creditsButton = Button(
     text = "Play Credits",
     color = color.blue,
-    scale = .1,
-    x = 0,
-    y = 0
+    origin = (2, 0),
+    scale = (0.3,0.2),
+    text_size = 1.5,
 )
 
 creditsButton._on_click = startCredits
