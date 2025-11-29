@@ -9,7 +9,7 @@ def setupMenu():
     menuBackground = Entity(
         parent = camera.ui,
         model = 'quad',
-        texture = 'assets/Unused/background.png', 
+        texture = 'assets/background.png', 
         scale = (window.aspect_ratio, 1),
         position = (0, 0))
 
