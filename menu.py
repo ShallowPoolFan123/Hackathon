@@ -11,42 +11,68 @@ music = Audio('assets/bossTime.mp3', loop=True, autoplay=True)
 
 ### Objects ###
 
+# Run game
+
+def startGame():
+    pass
+     
+
 # Menu
+def setupMenu():
+    menuBackground = Entity(
+        parent = camera.ui,
+        model = 'quad',
+        texture = 'assets/background.png', 
+        scale = (window.aspect_ratio, 1),
+        position = (0, 0))
 
-background = Entity(
-    parent = camera.ui,
-    model = 'quad',
-    texture = 'assets/background.png', 
-    scale = (window.aspect_ratio, 1),
-    position = (0, 0))
+    menuCreditsButton = Button(
+        text = "Play Credits",
+        color = color.blue,
+        origin = (2, 0),
+        scale = (0.3,0.2),
+        pressed_sound = 'assets/sword_slash.mp3',
+        text_size = 1.5,)
 
-creditsButton = Button(
-    text = "Play Credits",
-    color = color.blue,
-    origin = (2, 0),
-    scale = (0.3,0.2),
-    pressed_sound = 'assets/sword_slash.mp3',
-    text_size = 1.5,)
+    menuPlayButton = Button(
+        text = "Play Game",
+        color = color.green,
+        origin = (-2, 0),
+        scale = (0.3,0.2),
+        pressed_sound = 'assets/sword_slash.mp3',
+        text_size = 1.5,)
 
-mainButton = Button(
-    text = "Play Game",
-    color = color.green,
-    origin = (-2, 0),
-    scale = (0.3,0.2),
-    pressed_sound = 'assets/sword_slash.mp3',
-    text_size = 1.5,)
+    menuQuitButton = Button(
+        text = 'Quit',
+        color=color.red,
+        origin=(-2,-1.5),
+        scale=(.3,.2),
+        pressed_sound = 'assets/sword_slash.mp3',
+        text_size=1.5
+    )
 
-quitButton = Button(
-    text = 'Quit',
-    color=color.red,
-    origin=(-2,-1.5),
-    scale=(.3,.2),
-    pressed_sound = 'assets/sword_slash.mp3',
-    text_size=1.5
-)
+    def deleteMenu():
+        destroy(menuBackground)
+        destroy(menuCreditsButton)
+        destroy(menuPlayButton)
+        destroy(menuQuitButton)
+    def startGame():
+        deleteMenu()
+    def quitGame():
+        quit()
+         
+
+    menuPlayButton._on_click = startGame
+    menuCreditsButton._on_click = setupCredits
+    menuQuitButton._on_click = quitGame
+
+
+
+
+
 
 ### Credits ###
-def startCredits():
+def setupCredits():
 
     creditsText = Text(
         text='Coders: Mateo, Cedric, Andrew\n\nArt: Max, Quinn, Andrew',
@@ -97,8 +123,6 @@ def exitGame():
 
 
 
+setupMenu()
 
-creditsButton._on_click = startCredits
-mainButton._on_click = startGame
-quitButton._on_click = exitGame
 app.run()
