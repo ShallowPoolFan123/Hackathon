@@ -4,7 +4,7 @@ import sys
 import os
 
 
-app = Ursina(size=(1920, 1080))
+app = Ursina(size=(1280, 720))
 
 # Variables
 creditsText = 'Coders: Mateo, Cedric, Andrew\n\nArt: Max, Quinn'

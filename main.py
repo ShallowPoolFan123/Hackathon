@@ -1,20 +1,17 @@
 from ursina import *
 from ursina import Ursina, camera, Entity, EditorCamera
 
-app = Ursina(size=(1920, 1080))
-
-camera.position = Vec3(100, 0, 100)
+app = Ursina(size=(1280, 720))
 
 music = Audio('assets/fightMusic.mp3', loop=True, autoplay=True)
 
 background = Entity(
     parent = camera.ui,
     model = 'quad',
-    #texture = 'assets/background.png', 
-    color=color.red,
+    color = color.violet,
     texture = 'assets/gameBackground.png', 
     scale = (window.aspect_ratio, 1),
-    position = (0, 0.5)
+    position = (0, 0)
 )
 
 # Classes
