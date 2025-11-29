@@ -1,7 +1,7 @@
 from ursina import *
 import time
 
-app = Ursina(size=(1920, 1080))
+app = Ursina(size=(600, 400))
 music = Audio('assets/bossTime.mp3', loop=True, autoplay=True)
 
 # Menu
@@ -95,10 +95,13 @@ class Player(Sprite):
             ppu = 16,
             scale = 1.2,
             speed = 5,
-            position = position
+            position = position,
+            velocity = 0
             )
-        self.collider = BoxCollider(self, center=Vec3(0,0,0), size=Vec3(.3,1,1))
+        
+        self.collider = BoxCollider(self, center=Vec3(0,0,0), size=Vec3(.3,1,5))
         self.health = 100
+        self.lastkey = {}
 
 player1 = Player('assets/idlePlayer.png', (-4, -2, -1))
 player2 = Player('assets/idlePlayer2.png', (4, -2, -1))
@@ -125,63 +128,89 @@ wall2 = Entity(
 
 
 def update():
-    p1Origin = player1.world_position
-    p1hitInfoR = raycast(p1Origin, direction=Vec3(1,0,0), ignore=(player1,wall1, wall2), distance=time.dt * player1.speed, debug=False)
-    p1hitInfoL = raycast(p1Origin, direction=Vec3(-1,0,0), ignore=(player1,wall1,wall2), distance=time.dt * player1.speed, debug=False)
-    if held_keys['d']:        
-        if not p1hitInfoR.hit:
-            player1.x += time.dt * player1.speed # right
-    if held_keys['a']:
-        if not p1hitInfoL.hit:
-            player1.x -= time.dt * player1.speed # left
+    player1Origin = player1.world_position
+    player1Ray = raycast(player1Origin, direction=Vec3(1,0,0), ignore=(player1,wall1, wall2), distance=player1.velocity, debug=False)
+    if player1Ray.hit: print('player 1 hit')
+
+    if held_keys['d'] and not held_keys['a']:        
+        if not player1Ray.hit:
+            if player1.velocity < -0.01:
+                player1.velocity = 0.05
+            elif player1.velocity < 0.05:
+                player1.velocity += time.dt * player1.speed/10 # right
+
+
+    elif held_keys['a'] and not held_keys['d']:
+        if not player1Ray.hit:
+            if player1.velocity > 0.01:
+                player1.velocity = -0.05
+            elif player1.velocity > -0.05:
+                player1.velocity -= time.dt * player1.speed/10 # left
+
+    else:
+        player1.velocity = lerp(player1.velocity, 0, 0.2)
+    
+    player1.velocity = round(player1.velocity, 3)
+    if player1.velocity == 0.002 or player1.velocity == -0.002:
+        player1.velocity = 0 
 
     
 
 
-    p2Origin = player2.world_position
-    p2hitInfoR = raycast(p2Origin, direction=Vec3(1,0,0), ignore=(player2,wall1, wall2), distance=time.dt * player2.speed, debug=False)
-    p2hitInfoL = raycast(p2Origin, direction=Vec3(-1,0,0), ignore=(player2,wall1,wall2), distance=time.dt * player2.speed, debug=False)
-    if held_keys['l']:        
-        if not p2hitInfoR.hit:
-            player2.x += time.dt * player2.speed # right
-    if held_keys['j']:
-        if not p2hitInfoL.hit:
-            player2.x -= time.dt * player2.speed # left
+    player2Origin = player2.world_position
+    player2Ray = raycast(player2Origin, direction=Vec3(1,0,1), ignore=(player2,wall1, wall2), distance=player2.velocity, debug=False)
+    if player2Ray.hit: print('player 2 hit')
+
+    if held_keys['l'] and not held_keys['j']:        
+        if not player2Ray.hit:
+            if player2.velocity < -0.01:
+                player2.velocity = 0.05
+            elif player2.velocity < 0.05:
+                player2.velocity += time.dt * player2.speed/10 # right
 
 
-    if p1hitInfoR.hit and p2hitInfoL.hit:
-        player1.x -= player1.speed * time.dt * 2 # left
-        player2.x += player2.speed * time.dt * 2 # right
+    elif held_keys['j'] and not held_keys['l']:
+        if not player2Ray.hit:
+            if player2.velocity > 0.01:
+                player2.velocity = -0.05
+            elif player2.velocity > -0.05:
+                player2.velocity -= time.dt * player2.speed/10 # left
 
-    if p1hitInfoL.hit and p2hitInfoR.hit:
-        player1.x += player1.speed * time.dt * 2 # right
-        player2.x -= player2.speed * time.dt * 2 # left
+    else:
+        player2.velocity = lerp(player2.velocity, 0, 0.2)
+    
+    player2.velocity = round(player2.velocity, 3)
+    if player2.velocity == 0.002 or player2.velocity == -0.002:
+        player2.velocity = 0 
 
-    # if held_keys['l']:
-    #     player2.x += time.dt * speed
-    # if held_keys['j']:
-    #     player2.x -= time.dt * speed 
 
-    # def move(player1):
-    #     player1.direction = Vec3(
-    #         player1.right * (held_keys['d'] - held_keys['a'])).normalized()
-    #     origin = player1.world_position
-    #     hit_info = raycast(origin, player1.direction, ignore=(player1,), distance=.5, debug=False)
-    #     if not hit_info.hit:
-    #         player1.position += player1.direction * 5 * time.dt
+    player1.x += player1.velocity
+    player2.x += player2.velocity
+    
+    
+
+
+
+
+
+    # if p1hitInfoR.hit and p2hitInfoL.hit:
+    #     player1.x -= player1.speed * time.dt * 2 # left
+    #     player2.x += player2.speed * time.dt * 2 # right
+
+    # if p1hitInfoL.hit and p2hitInfoR.hit:
+    #     player1.x += player1.speed * time.dt * 2 # right
+    #     player2.x -= player2.speed * time.dt * 2 # left
+
+
 
     if player1.intersects(wall1).hit:
         player1.x = -6.3
-        print("hit")
     if player1.intersects(wall2).hit:
         player1.x = 6.3
-        print("hit")
     if player2.intersects(wall1).hit:
         player2.x = -6.3
-        print("hit")
     if player2.intersects(wall2).hit:
         player2.x = 6.3
-        print("hit")
 
 def exitGame():
     time.sleep(1)
