@@ -78,6 +78,7 @@ quitButton = Button(
     text_size=1.5
 )
 
+
 creditsButton._on_click = startCredits
 mainButton._on_click = startGame
 quitButton._on_click = exitGame
