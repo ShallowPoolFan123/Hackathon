@@ -3,30 +3,19 @@ import subprocess
 import sys
 import os
 import time
-
 app = Ursina(size=(1920, 1080))
-
 music = Audio('assets/bossTime.mp3', loop=True, autoplay=True)
-
-
 e=Button(text='e',world_position=(16.3,10))
-
-
 background = Entity(
     parent = camera.ui,
     model = 'quad',
     texture = 'assets/background.png', 
     scale = (window.aspect_ratio, 1),
-    position = (0, 0)
-)
-
+    position = (0, 0))
 def startCredits():
-
     print("Attempting to start external credits...")
-
     python_executable = sys.executable
     script_path = os.path.join(os.path.dirname(__file__), 'credits.py')
-
     try:
         subprocess.Popen([python_executable, script_path])
         print("External program launched.")
@@ -34,24 +23,17 @@ def startCredits():
         quit()
     except Exception as e:
         print(f"Failed to launch program: {e}")
-    
-
 creditsButton = Button(
     text = "Play Credits",
     color = color.blue,
     origin = (2, 0),
     scale = (0.3,0.2),
     pressed_sound = 'assets/sword_slash.mp3',
-    text_size = 1.5,
-)
-
+    text_size = 1.5,)
 def startGame():
-
     print("Attempting to start game...")
-
     python_executable = sys.executable
     script_path = os.path.join(os.path.dirname(__file__), 'main.py')
-
     try:
         subprocess.Popen([python_executable, script_path])
         print("External program launched.")
@@ -59,31 +41,24 @@ def startGame():
         quit()
     except Exception as e:
         print(f"Failed to launch program: {e}")
-
 mainButton = Button(
     text = "Play Game",
     color = color.green,
     origin = (-2, 0),
     scale = (0.3,0.2),
     pressed_sound = 'assets/sword_slash.mp3',
-    text_size = 1.5,
-)
-
+    text_size = 1.5,)
 def exitGame():
     time.sleep(1)
     quit()
-
 quitButton = Button(
     text = 'Quit',
     color=color.red,
     origin=(-2,-1.5),
     scale=(.3,.2),
     pressed_sound = 'assets/sword_slash.mp3',
-    text_size=1.5
-)
-
+    text_size=1.5)
 creditsButton._on_click = startCredits
 mainButton._on_click = startGame
 quitButton._on_click = exitGame
-
 app.run()
