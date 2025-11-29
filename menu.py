@@ -8,6 +8,10 @@ app = Ursina(size=(1920, 1080))
 
 music = Audio('assets/bossTime.mp3', loop=True, autoplay=True)
 
+
+e=Button(text='e',world_position=(16.3,10))
+
+
 background = Entity(
     parent = camera.ui,
     model = 'quad',
