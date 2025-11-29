@@ -1,12 +1,11 @@
 from ursina import *
-import subprocess
-import sys
-import os
 import time
 
 
 app = Ursina(size=(1920, 1080))
 music = Audio('assets/bossTime.mp3', loop=True, autoplay=True)
+
+### updateloop ###
 
 
 
@@ -150,19 +149,11 @@ def update():
         player1.x += time.dt * speed
     if held_keys['a']:
         player1.x -= time.dt * speed 
-    if held_keys['w']:
-        player1.y += time.dt * speed 
-    if held_keys['s']:
-        player1.y -= time.dt * speed 
 
     if held_keys['l']:
         player2.x += time.dt * speed
     if held_keys['j']:
         player2.x -= time.dt * speed 
-    if held_keys['i']:
-        player2.y += time.dt * speed 
-    if held_keys['k']:
-        player2.y -= time.dt * speed 
 
     if player1.intersects(wall1).hit:
         player1.x = -5.6
