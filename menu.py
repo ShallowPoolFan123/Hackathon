@@ -85,7 +85,8 @@ background = Entity(
     color = color.violet,
     texture = 'assets/gameBackground.png', 
     scale = (16, 9, 1),
-    position = (0,0,3)
+    position = (0,0,3),
+    visible = True
     )
 
 class Player(Sprite):
@@ -102,6 +103,7 @@ class Player(Sprite):
         self.collider = BoxCollider(self, center=Vec3(0,0,0), size=Vec3(.3,1,5))
         self.health = 100
         self.lastkey = {}
+        self.absolute_x = position[0]
 
 player1 = Player('assets/idlePlayer.png', (-4, -2, -1))
 player2 = Player('assets/idlePlayer2.png', (4, -2, -1))
@@ -167,35 +169,45 @@ def update():
                 player2.velocity = 0.05
             elif player2.velocity < 0.05:
                 player2.velocity += time.dt * player2.speed/10 # right
-
-
-    elif held_keys['k']:
+    if held_keys['j'] and not held_keys['l']:        
         if not player2Ray.hit:
             if player2.velocity > 0.01:
                 player2.velocity = -0.05
             elif player2.velocity > -0.05:
-                player2.velocity -= time.dt * player2.speed/10 # left
-    elif held_keys['s']:
-        player1.texture = random.random('assets/player1Punch1.png', 'assets/player1Punch2')
-        if player1.x > player2.x:
-            player1.scale_x = 1.2
-            player2.scale_x = 1.2
-        elif player1.x < player2.x:
-            player1.scale_x = -1.2
-            player2.scale_x = -1.2 
+                player2.velocity -= time.dt * player2.speed/10
     else:
         player2.velocity = lerp(player2.velocity, 0, 0.2)
     
+
     player2.velocity = round(player2.velocity, 3)
     if player2.velocity == 0.002 or player2.velocity == -0.002:
         player2.velocity = 0 
 
 
-    player1.x += player1.velocity
-    player2.x += player2.velocity
+    player1.absolute_x += player1.velocity
+    player2.absolute_x += player2.velocity
+    player1.x = player1.absolute_x
+    player2.x = player2.absolute_x
     
-    
+    if held_keys['k']:
+        player2_texture = random.choice(('assets/player2Punch1', 'assets/player2Punch2'))
+    else:
+        player2_texture = 'assets/idlePlayer2'
 
+    if held_keys['s']:
+        player1_texture = random.choice(('assets/player1Punch1', 'assets/player1Punch2'))
+    else:
+
+        player1_texture = 'assets/idlePlayer'
+    if player1.absolute_x > player2.absolute_x:
+        player1_texture += 'Inverse'
+        player2_texture += 'Inverse'
+
+
+    player1.texture = player1_texture + '.png'
+    player2.texture = player2_texture + '.png'
+
+#playerAssets = ['idlePlayer.png', 'idlePlayer2.png']
 
 
 
