@@ -2,7 +2,7 @@ from ursina import *
 import time
 
 app = Ursina(size=(600, 400))
-music = Audio('Sound/Sound/bossTime.mp3', loop=True, autoplay=True)
+music = Audio('assets/Sound/bossTime.mp3', loop=True, autoplay=True)
 
 # Menu
 def setupMenu():
