@@ -2,10 +2,11 @@ from ursina import *
 import subprocess
 import sys
 import os
+import time
 
-app = Ursina()
+app = Ursina(size=(1920, 1080))
 
-#music = Audio('', loop=True, autoplay=True)
+music = Audio('assets/bossTime.mp3', loop=True, autoplay=True)
 
 
 e=Button(text='e',world_position=(16.3,10))
@@ -29,6 +30,7 @@ def startCredits():
     try:
         subprocess.Popen([python_executable, script_path])
         print("External program launched.")
+        time.sleep(1)
         quit()
     except Exception as e:
         print(f"Failed to launch program: {e}")
@@ -39,6 +41,7 @@ creditsButton = Button(
     color = color.blue,
     origin = (2, 0),
     scale = (0.3,0.2),
+    pressed_sound = 'assets/sword_slash.mp3',
     text_size = 1.5,
 )
 
@@ -52,6 +55,7 @@ def startGame():
     try:
         subprocess.Popen([python_executable, script_path])
         print("External program launched.")
+        time.sleep(1)
         quit()
     except Exception as e:
         print(f"Failed to launch program: {e}")
@@ -61,10 +65,12 @@ mainButton = Button(
     color = color.green,
     origin = (-2, 0),
     scale = (0.3,0.2),
+    pressed_sound = 'assets/sword_slash.mp3',
     text_size = 1.5,
 )
 
 def exitGame():
+    time.sleep(1)
     quit()
 
 quitButton = Button(
@@ -72,8 +78,10 @@ quitButton = Button(
     color=color.red,
     origin=(-2,-1.5),
     scale=(.3,.2),
+    pressed_sound = 'assets/sword_slash.mp3',
     text_size=1.5
 )
+
 creditsButton._on_click = startCredits
 mainButton._on_click = startGame
 quitButton._on_click = exitGame
