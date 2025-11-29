@@ -2,14 +2,14 @@ from ursina import *
 import time
 
 app = Ursina(size=(600, 400))
-music = Audio('assets/bossTime.mp3', loop=True, autoplay=True)
+music = Audio('Sound/Sound/bossTime.mp3', loop=True, autoplay=True)
 
 # Menu
 def setupMenu():
     menuBackground = Entity(
         parent = camera.ui,
         model = 'quad',
-        texture = 'assets/background.png', 
+        texture = 'assets/Unused/background.png', 
         scale = (window.aspect_ratio, 1),
         position = (0, 0))
 
