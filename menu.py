@@ -18,7 +18,7 @@ def setupMenu():
         color = color.blue,
         origin = (2, 0),
         scale = (0.3,0.2),
-        pressed_sound = 'assets/sword_slash.mp3',
+        pressed_sound = 'assets/Sound/sword_slash.mp3',
         text_size = 1.5,)
 
     menuPlayButton = Button(
@@ -26,7 +26,7 @@ def setupMenu():
         color = color.green,
         origin = (-2, 0),
         scale = (0.3,0.2),
-        pressed_sound = 'assets/sword_slash.mp3',
+        pressed_sound = 'assets/Sound/sword_slash.mp3',
         text_size = 1.5,)
 
     menuQuitButton = Button(
@@ -34,14 +34,14 @@ def setupMenu():
         color=color.red,
         origin=(-2,-1.5),
         scale=(.3,.2),
-        pressed_sound = 'assets/sword_slash.mp3',
+        pressed_sound = 'assets/Sound/sword_slash.mp3',
         text_size=1.5
     )
 
     def setupCredits():
 
         creditsText = Text(
-            text='Coders: Mateo, Cedric, Andrew\n\nArt: Max, Quinn, Andrew',
+            text='Coders: Mateo, Cedric, Andrew\n\nArt: Max, Quinn, Andrew, Cedric, Mateo',
             size=4,
             origin=(0,0)
         )
@@ -88,21 +88,20 @@ background = Entity(
     position = (0,0,3)
     )
 
-player1 = Sprite(
-    texture='assets/idlePlayer.png',
-    collider = 'box',
-    ppu = 16,
-    scale = 1.2,
-    position = (-4, -2, -1)
-    )
+class Player(Sprite):
+    def __init__(self, texture, position):
+        super().__init__(
+            texture = texture,
+            collider = 'box',
+            ppu = 16,
+            scale = 1.2,
+            position = position
+            )
+        self.health = 100
 
-player2 = Sprite(
-    texture='assets/idlePlayer2.png',
-    collider = 'box',
-    ppu = 16,
-    scale = 1.2,
-    position = (4, -2, -1)
-    )
+player1 = Player('assets/idlePlayer.png', (-4, -2, -1))
+
+player2 = Player('assets/idlePlayer2.png', (4, -2, -1))
 
 speed = 5
 
@@ -113,7 +112,7 @@ wall1 = Entity(
     scale_x = 1,
     scale_y = 100,
     position = (-7, -5, -1),
-    visible = True
+    visible = False
         )
 
 wall2 = Entity(
@@ -123,7 +122,7 @@ wall2 = Entity(
     scale_x = 1,
     scale_y = 100,
     position = (7, -5, -1),
-    visible = True
+    visible = False
     )
 
 
