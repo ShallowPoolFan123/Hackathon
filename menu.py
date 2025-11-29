@@ -2,7 +2,7 @@ from ursina import *
 import time
 
 app = Ursina(size=(600, 400))
-music = Audio('assets/bossTime.mp3', loop=True, autoplay=True)
+music = Audio('assets/Sound/bossTime.mp3', loop=True, autoplay=True)
 
 # Menu
 def setupMenu():
@@ -103,8 +103,8 @@ class Player(Sprite):
         self.health = 100
         self.lastkey = {}
 
-player1 = Player('assets/idlePlayer.png', (-4, -2, -1))
-player2 = Player('assets/idlePlayer2.png', (4, -2, -1))
+player1 = Player('assets/idlePlayer.png', (-4, -2, 2))
+player2 = Player('assets/idlePlayer2.png', (4, -2, 2))
 
 wall1 = Entity(
     model = 'quad',
@@ -129,7 +129,7 @@ wall2 = Entity(
 
 def update():
     player1Origin = player1.world_position
-    player1Ray = raycast(player1Origin, direction=Vec3(1,0,0), ignore=(player1,wall1, wall2), distance=player1.velocity, debug=False)
+    player1Ray = raycast(player1Origin, direction=Vec2(1,0), ignore=(player1,wall1, wall2), distance=player1.velocity, debug=False)
     if player1Ray.hit: print('player 1 hit')
 
     if held_keys['d'] and not held_keys['a']:        
@@ -154,11 +154,8 @@ def update():
     if player1.velocity == 0.002 or player1.velocity == -0.002:
         player1.velocity = 0 
 
-    
-
-
     player2Origin = player2.world_position
-    player2Ray = raycast(player2Origin, direction=Vec3(1,0,1), ignore=(player2,wall1, wall2), distance=player2.velocity, debug=False)
+    player2Ray = raycast(player2Origin, direction=Vec2(1,0), ignore=(player2,wall1, wall2), distance=player2.velocity, debug=False)
     if player2Ray.hit: print('player 2 hit')
 
     if held_keys['l'] and not held_keys['j']:        
@@ -183,26 +180,9 @@ def update():
     if player2.velocity == 0.002 or player2.velocity == -0.002:
         player2.velocity = 0 
 
-
     player1.x += player1.velocity
     player2.x += player2.velocity
     
-    
-
-
-
-
-
-    # if p1hitInfoR.hit and p2hitInfoL.hit:
-    #     player1.x -= player1.speed * time.dt * 2 # left
-    #     player2.x += player2.speed * time.dt * 2 # right
-
-    # if p1hitInfoL.hit and p2hitInfoR.hit:
-    #     player1.x += player1.speed * time.dt * 2 # right
-    #     player2.x -= player2.speed * time.dt * 2 # left
-
-
-
     if player1.intersects(wall1).hit:
         player1.x = -6.3
     if player1.intersects(wall2).hit:
