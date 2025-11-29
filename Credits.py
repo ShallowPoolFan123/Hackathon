@@ -3,7 +3,7 @@ import subprocess
 import sys
 import os
 
-app = Ursina(size=(1280, 720))
+#app = Ursina(size=(1280, 720))
 #def returnToMenu():
 #        print("Attempting to start external credits...")
 #        menu.setupMenu()

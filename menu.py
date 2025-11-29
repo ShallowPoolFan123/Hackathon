@@ -63,7 +63,6 @@ def setupMenu():
         deleteMenu()
     def quitGame():
         quit()
-    print(dir(Credits))
     menuCreditsButton._on_click = lambda: Credits.setupCredits(setupMenu)
     menuQuitButton._on_click = quitGame
 setupMenu()
