@@ -43,3 +43,4 @@ back2 = Button(text='Mateo',scale=(.2,.1),position=(0.3,-0),pressed_scale=0.95,t
 back._on_click = Andrew
 back2._on_click = Mateo
 app.run()
+#switch_scene('credits.py')
