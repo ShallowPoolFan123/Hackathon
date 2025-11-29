@@ -1,6 +1,8 @@
 from ursina import *
 
-app = Ursina()
+app = Ursina(size=(1920, 1080))
+
+music = Audio('assets/fightMusic.mp3', loop=True, autoplay=True)
 
 background = Entity(
     parent = camera.ui,

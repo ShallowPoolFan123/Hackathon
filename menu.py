@@ -4,7 +4,7 @@ import sys
 import os
 import time
 
-app = Ursina()
+app = Ursina(size=(1920, 1080))
 
 music = Audio('assets/bossTime.mp3', loop=True, autoplay=True)
 
