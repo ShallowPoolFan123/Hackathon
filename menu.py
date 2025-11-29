@@ -9,12 +9,9 @@ app = Ursina(size=(1920, 1080))
 music = Audio('assets/bossTime.mp3', loop=True, autoplay=True)
 
 
-### Objects ###
 
 # Run game
 
-def startGame():
-    pass
      
 
 # Menu
@@ -80,8 +77,6 @@ def setupMenu():
         destroy(menuPlayButton)
         destroy(menuQuitButton)
 
-    def startGame():
-        deleteMenu()
 
     def quitGame():
         quit()
@@ -89,38 +84,102 @@ def setupMenu():
     def startGame():
         deleteMenu()
         
-
+        
+    music = Audio('assets/fightMusic.mp3', loop=True, autoplay=True)    
     menuPlayButton._on_click = startGame
     menuCreditsButton._on_click = setupCredits
     menuQuitButton._on_click = quitGame
 
-
-
-
-
-
-### Credits ###
-
-
-
-
-### Functions ###
-
-# Menu
-
-
+# def gherigh():
+#     global game
+#     game = False
     
+# gherigh()
 
 
-    
+background = Entity(
+    model = 'quad',
+    color = color.violet,
+    texture = 'assets/gameBackground.png', 
+    scale = (16, 9, 1),
+    position = (0,0,3)
+    )
+
+player1 = Sprite(
+    texture='assets/idlePlayer.png',
+    collider = 'box',
+    ppu = 16,
+    scale = 1.2,
+    position = (-4, -2, -1)
+    )
+
+player2 = Sprite(
+    texture='assets/idlePlayer2.png',
+    collider = 'box',
+    ppu = 16,
+    scale = 1.2,
+    position = (4, -2, -1)
+    )
+
+speed = 5
+
+wall1 = Entity(
+    model = 'quad',
+    collider = 'box',
+    color = color.magenta,
+    scale_x = 1,
+    scale_y = 100,
+    position = (-7, -5, -1),
+    visible = True
+        )
+
+wall2 = Entity(
+    model = 'quad',
+    collider = 'box',
+    color = color.yellow,
+    scale_x = 1,
+    scale_y = 100,
+    position = (7, -5, -1),
+    visible = True
+    )
+
+
+game1 = False
+def update():
+    if held_keys['d']:
+        player1.x += time.dt * speed
+    if held_keys['a']:
+        player1.x -= time.dt * speed 
+    if held_keys['w']:
+        player1.y += time.dt * speed 
+    if held_keys['s']:
+        player1.y -= time.dt * speed 
+
+    if held_keys['l']:
+        player2.x += time.dt * speed
+    if held_keys['j']:
+        player2.x -= time.dt * speed 
+    if held_keys['i']:
+        player2.y += time.dt * speed 
+    if held_keys['k']:
+        player2.y -= time.dt * speed 
+
+    if player1.intersects(wall1).hit:
+        player1.x = -5.6
+        print("hit")
+    if player1.intersects(wall2).hit:
+        player1.x = 5.6
+        print("hit")
+    if player2.intersects(wall1).hit:
+        player2.x = -5.6
+        print("hit")
+    if player2.intersects(wall2).hit:
+        player2.x = 5.6
+        print("hit")
 
 def exitGame():
     time.sleep(1)
     quit()
-
-
-
-
 
 setupMenu()
 
