@@ -75,7 +75,7 @@ def setupMenu():
         deleteMenu()
         
         
-    music = Audio('assets/fightMusic.mp3', loop=True, autoplay=True)    
+    #music = Audio('assets/fightMusic.mp3', loop=True, autoplay=True)    
     menuPlayButton._on_click = startGame
     menuCreditsButton._on_click = setupCredits
     menuQuitButton._on_click = quitGame
