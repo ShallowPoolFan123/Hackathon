@@ -3,6 +3,8 @@ import subprocess
 import sys
 import os
 import time
+import main
+import Credits
 
 
 app = Ursina(size=(1920, 1080))
@@ -19,6 +21,7 @@ def startGame():
 
 # Menu
 def setupMenu():
+    scene.clear()
     menuBackground = Entity(
         parent = camera.ui,
         model = 'quad',
@@ -63,7 +66,8 @@ def setupMenu():
          
 
     menuPlayButton._on_click = startGame
-    menuCreditsButton._on_click = setupCredits
+    print(dir(Credits))
+    menuCreditsButton._on_click = Credits.setupCredits
     menuQuitButton._on_click = quitGame
 
 
@@ -72,8 +76,8 @@ def setupMenu():
 
 
 ### Credits ###
-def setupCredits():
-
+def notsetupCredits():
+    scene.clear()
     creditsText = Text(
         text='Coders: Mateo, Cedric, Andrew\n\nArt: Max, Quinn, Andrew',
         size=4,
