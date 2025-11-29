@@ -1,35 +1,41 @@
 from ursina import *
 import Credits
 import menu
-#app = Ursina()
+double = False
 def Andrew():
-    WASD = Entity(
-        parent = camera.ui,
-        model = 'quad',
-        texture = 'assets/WASD.png',
-        scale = (0.22, 0.22),
-        world_position = (-6, -3, -1))
-    WASD = Entity(
-        parent = camera.ui,
-        model = 'quad',
-        texture = 'assets/New Piskel (1).gif',
-        scale = (0.22, 0.22),
-        world_position = (6, -3, -1))
-    invoke(Credits.setupCredits, delay=5)
+    global double
+    if double == False:
+        WASD = Entity(
+            parent = camera.ui,
+            model = 'quad',
+            texture = 'assets/WASD.png',
+            scale = (0.22, 0.22),
+            world_position = (-6, -3, -1))
+        WASD = Entity(
+            parent = camera.ui,
+            model = 'quad',
+            texture = 'assets/New Piskel (1).gif',
+            scale = (0.22, 0.22),
+            world_position = (6, -3, -1))
+        invoke(Credits.setupCredits, delay=5)
+    double = True
 def Mateo():
-    WASD = Entity(
-        parent = camera.ui,
-        model = 'quad',
-        texture = 'assets/New Piskel (1).gif',
-        scale = (0.22, 0.22),
-        world_position = (-6, -3, -1))
-    WASD = Entity(
-        parent = camera.ui,
-        model = 'quad',
-        texture = 'assets/WASD.png',
-        scale = (0.22, 0.22),
-        world_position = (6, -3, -1))
-    invoke(Credits.setupCredits, delay=5)
+    global double
+    if double == False:
+        WASD = Entity(
+            parent = camera.ui,
+            model = 'quad',
+            texture = 'assets/New Piskel (1).gif',
+            scale = (0.22, 0.22),
+            world_position = (-6, -3, -1))
+        WASD = Entity(
+            parent = camera.ui,
+            model = 'quad',
+            texture = 'assets/WASD.png',
+            scale = (0.22, 0.22),
+            world_position = (6, -3, -1))
+        invoke(Credits.setupCredits, delay=5)
+    double = True
 
 def play():
     scene.clear()
