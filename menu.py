@@ -57,7 +57,9 @@ quitButton = Button(
     origin=(-2,-1.5),
     scale=(.3,.2),
     pressed_sound = 'assets/sword_slash.mp3',
-    text_size=1.5)
+    text_size=1.5
+)
+
 creditsButton._on_click = startCredits
 mainButton._on_click = startGame
 quitButton._on_click = exitGame
