@@ -3,32 +3,25 @@ import subprocess
 import sys
 import os
 import time
-import main
+import Game
 import Credits
 
-
-app = Ursina(size=(1920, 1080))
 music = Audio('assets/bossTime.mp3', loop=True, autoplay=True)
-
 
 ### Objects ###
 
 # Run game
-
-def startGame():
-    pass
-     
-
-# Menu
-def setupMenu():
-    scene.clear()
+def background():
     menuBackground = Entity(
         parent = camera.ui,
         model = 'quad',
         texture = 'assets/background.png', 
         scale = (window.aspect_ratio, 1),
-        position = (0, 0))
-
+        position = (0, 0, 0))
+# Menu
+def setupMenu():
+    scene.clear()
+    background()
     menuCreditsButton = Button(
         text = "Play Credits",
         color = color.blue,
@@ -53,17 +46,8 @@ def setupMenu():
         pressed_sound = 'assets/sword_slash.mp3',
         text_size=1.5
     )
-
-    def deleteMenu():
-        destroy(menuBackground)
-        destroy(menuCreditsButton)
-        destroy(menuPlayButton)
-        destroy(menuQuitButton)
-    def startGame():
-        deleteMenu()
     def quitGame():
         quit()
     menuCreditsButton._on_click = lambda: Credits.setupCredits(setupMenu)
     menuQuitButton._on_click = quitGame
-setupMenu()
-app.run()
+    menuPlayButton._on_click = Game.play
