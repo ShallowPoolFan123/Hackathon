@@ -7,6 +7,10 @@ app = Ursina()
 
 #music = Audio('', loop=True, autoplay=True)
 
+
+e=Button(text='e',world_position=(16.3,10))
+
+
 background = Entity(
     parent = camera.ui,
     model = 'quad',
