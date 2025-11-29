@@ -7,12 +7,9 @@ music = Audio('assets/fightMusic.mp3', loop=True, autoplay=True)
 background = Entity(
     parent = camera.ui,
     model = 'quad',
-<<<<<<< HEAD
     #texture = 'assets/background.png', 
     color=color.red,
-=======
     texture = 'assets/gameBackground.png', 
->>>>>>> 89d04169cc5b7764bd144ed2afe862e25498c0cc
     scale = (window.aspect_ratio, 1),
     position = (0, 0)
 )
@@ -26,11 +23,12 @@ class Character():
 
     def input(key):
         def jump():
-            if 
+            pass
             
         debounce = False
         print('key', key)
         if key == 'jump':
+            pass
 
 
             
