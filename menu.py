@@ -1,17 +1,8 @@
 from ursina import *
 import time
 
-
 app = Ursina(size=(1920, 1080))
 music = Audio('assets/bossTime.mp3', loop=True, autoplay=True)
-
-### updateloop ###
-
-
-
-# Run game
-
-     
 
 # Menu
 def setupMenu():
@@ -88,13 +79,6 @@ def setupMenu():
     menuPlayButton._on_click = startGame
     menuCreditsButton._on_click = setupCredits
     menuQuitButton._on_click = quitGame
-
-# def gherigh():
-#     global game
-#     game = False
-    
-# gherigh()
-
 
 background = Entity(
     model = 'quad',
