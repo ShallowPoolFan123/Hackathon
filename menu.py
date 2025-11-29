@@ -99,6 +99,35 @@ def notsetupCredits():
     creditsBack._on_click = deleteCredits
 
 
+    def deleteMenu():
+        destroy(menuBackground)
+        destroy(menuCreditsButton)
+        destroy(menuPlayButton)
+        destroy(menuQuitButton)
+
+    def startGame():
+        deleteMenu()
+
+    def quitGame():
+        quit()
+
+    def startGame():
+        deleteMenu()
+        
+
+    menuPlayButton._on_click = startGame
+    menuCreditsButton._on_click = setupCredits
+    menuQuitButton._on_click = quitGame
+
+
+
+
+
+
+### Credits ###
+
+
+
 
 ### Functions ###
 
@@ -107,17 +136,8 @@ def notsetupCredits():
 
     
 
-def startGame():
-    print("Attempting to start game...")
-    python_executable = sys.executable
-    script_path = os.path.join(os.path.dirname(__file__), 'main.py')
-    try:
-        subprocess.Popen([python_executable, script_path])
-        print("External program launched.")
-        time.sleep(1)
-        quit()
-    except Exception as e:
-        print(f"Failed to launch program: {e}")
+
+    
 
 def exitGame():
     time.sleep(1)
