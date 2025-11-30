@@ -85,17 +85,23 @@ class Button:
 
 # Player class
 class Player(pygame.sprite.Sprite):
-    def __init__(self, texture_path, x, y):
-        super().__init__()
-        try:
-            self.original_image = pygame.image.load(texture_path)
-            self.image = pygame.transform.scale(self.original_image, (60, 80))
-        except:
-            # Create a placeholder if image doesn't load
-            self.image = pygame.Surface((60, 80))
-            self.image.fill(GREEN)
+    REGULAR = 0
+    INVERTED = 1
 
-        self.rect = self.image.get_rect()
+    def __init__(self, texture_path, punches, x, y):
+        super().__init__()
+        def loadAsset(texture_path):
+            try:
+                original_image = pygame.image.load(texture_path)
+                image = pygame.transform.scale(original_image, (60, 80))
+            except:
+                # Create a placeholder if image doesn't load
+                image = pygame.Surface((60, 80))
+                image.fill(GREEN)
+            return [image, pygame.transform.flip(image, True, False)]
+        self.image = self.idleImage = loadAsset(texture_path)
+        self.punches = list(map(loadAsset, punches))
+        self.rect = self.image[Player.REGULAR].get_rect()
         self.rect.center = (x, y)
         self.health = 100
         self.velocity = 0
@@ -103,8 +109,8 @@ class Player(pygame.sprite.Sprite):
 
     def update_texture(self, texture_path):
         try:
-            self.original_image = pygame.image.load(texture_path)
-            self.image = pygame.transform.scale(self.original_image, (60, 80))
+            original_image = pygame.image.load(texture_path)
+            self.image = pygame.transform.scale(original_image, (60, 80))
         except:
             pass
 
@@ -133,8 +139,8 @@ def init_game():
     player2_x = 3 * WINDOW_WIDTH // 4
     player2_y = WINDOW_HEIGHT - 100
 
-    player1 = Player('assets/idlePlayer.png', player1_x, player1_y)
-    player2 = Player('assets/idlePlayer2.png', player2_x, player2_y)
+    player1 = Player('assets/idlePlayer.png', ['assets/player1Punch1.png', 'assets/player1Punch2.png'], player1_x, player1_y)
+    player2 = Player('assets/idlePlayer2.png', ['assets/player2Punch1.png', 'assets/player2Punch2.png'], player2_x, player2_y)
 
     # Create walls (invisible boundaries)
     wall1_rect = pygame.Rect(0, 0, 50, WINDOW_HEIGHT)
@@ -272,22 +278,25 @@ def draw_game(screen, dt):
 
     # Update textures based on actions
     if keys[pygame.K_k]:
-        player2_texture = random.choice(('assets/player2Punch1', 'assets/player2Punch2'))
+        player2_texture = random.choice(player2.punches)
     else:
-        player2_texture = 'assets/idlePlayer2'
+        player2_texture = player2.idleImage
 
     if keys[pygame.K_s]:
-        player1_texture = random.choice(('assets/player1Punch1', 'assets/player1Punch2'))
+        player1_texture = random.choice(player1.punches)
     else:
-        player1_texture = 'assets/idlePlayer'
+        player1_texture = player1.idleImage
 
     # Check if players should face each other
     if player1.rect.centerx > player2.rect.centerx:
-        player1_texture += 'Inverse'
-        player2_texture += 'Inverse'
+        player1_texture = player1_texture[Player.INVERTED]
+        player2_texture = player2_texture[Player.INVERTED]
+    else:
+        player1_texture = player1_texture[Player.REGULAR]
+        player2_texture = player2_texture[Player.REGULAR]
 
-    player1.update_texture(player1_texture + '.png')
-    player2.update_texture(player2_texture + '.png')
+    player1.image = player1_texture
+    player2.image = player2_texture
 
     # Wall collision
     if player1.rect.left < 50:
