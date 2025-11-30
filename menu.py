@@ -29,10 +29,10 @@ clock = pygame.time.Clock()
 
 # Load and play music
 try:
-    pygame.mixer.music.load('assets/bossTime.mp3')
+    pygame.mixer.music.load('assets/Sound/bossTime.mp3')
     pygame.mixer.music.play(-1)  # -1 means loop forever
-except:
-    print("Warning: Could not load background music")
+except Exception as e:
+    print(f"Warning: Could not load background music: {e}")
 
 # Load sound effects
 try:
@@ -100,8 +100,6 @@ class Player(pygame.sprite.Sprite):
         self.health = 100
         self.velocity = 0
         self.speed = 5
-        self.absolute_x = x
-        self.texture_base = texture_path.replace('.png', '')
 
     def update_texture(self, texture_path):
         try:
@@ -269,11 +267,8 @@ def draw_game(screen, dt):
         player2.velocity = 0
 
     # Update positions
-    player1.absolute_x += player1.velocity * 100  # Scale for pygame
-    player2.absolute_x += player2.velocity * 100
-
-    player1.rect.centerx = int(player1.absolute_x)
-    player2.rect.centerx = int(player2.absolute_x)
+    player1.rect.centerx += player1.velocity * 100  # Scale for pygame
+    player2.rect.centerx += player2.velocity * 100
 
     # Update textures based on actions
     if keys[pygame.K_k]:
@@ -287,7 +282,7 @@ def draw_game(screen, dt):
         player1_texture = 'assets/idlePlayer'
 
     # Check if players should face each other
-    if player1.absolute_x > player2.absolute_x:
+    if player1.rect.centerx > player2.rect.centerx:
         player1_texture += 'Inverse'
         player2_texture += 'Inverse'
 
