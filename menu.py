@@ -16,9 +16,6 @@ FPS = 60
 BLUE = (0, 100, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
-VIOLET = (138, 43, 226)
-MAGENTA = (255, 0, 255)
-YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
@@ -28,33 +25,15 @@ pygame.display.set_caption("Game Menu")
 clock = pygame.time.Clock()
 
 # Load and play music
-try:
-    pygame.mixer.music.load('assets/Sound/bossTime.mp3')
-    pygame.mixer.music.play(-1)  # -1 means loop forever
-except Exception as e:
-    print(f"Warning: Could not load background music: {e}")
+pygame.mixer.music.load('assets/Sound/bossTime.mp3')
+pygame.mixer.music.play(-1)  # -1 means loop forever
 
 # Load sound effects
-try:
-    sword_slash_sound = pygame.mixer.Sound('assets/Sound/sword_slash.mp3')
-except:
-    sword_slash_sound = None
-    print("Warning: Could not load sword slash sound")
+sword_slash_sound = pygame.mixer.Sound('assets/Sound/sword_slash.mp3')
 
 # Load images
-try:
-    menu_background_img = pygame.image.load('assets/background.png')
-    menu_background_img = pygame.transform.scale(menu_background_img, (WINDOW_WIDTH, WINDOW_HEIGHT))
-except:
-    menu_background_img = None
-    print("Warning: Could not load menu background")
-
-try:
-    game_background_img = pygame.image.load('assets/gameBackground.png')
-    game_background_img = pygame.transform.scale(game_background_img, (WINDOW_WIDTH, WINDOW_HEIGHT))
-except:
-    game_background_img = None
-    print("Warning: Could not load game background")
+menu_background_img = pygame.transform.scale(pygame.image.load('assets/background.png'), (WINDOW_WIDTH, WINDOW_HEIGHT))
+game_background_img = pygame.transform.scale(pygame.image.load('assets/gameBackground.png'), (WINDOW_WIDTH, WINDOW_HEIGHT))
 
 # Button class
 class Button:
@@ -91,13 +70,9 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, texture_path, punches, x, y):
         super().__init__()
         def loadAsset(texture_path):
-            try:
-                original_image = pygame.image.load(texture_path)
-                image = pygame.transform.scale(original_image, (60, 80))
-            except:
-                # Create a placeholder if image doesn't load
-                image = pygame.Surface((60, 80))
-                image.fill(GREEN)
+            original_image = pygame.image.load(texture_path)
+            image = pygame.transform.scale(original_image, (60, 80))
+            # Make original image and flipped image
             return [image, pygame.transform.flip(image, True, False)]
         self.image = self.idleImage = loadAsset(texture_path)
         self.punches = list(map(loadAsset, punches))
@@ -107,13 +82,6 @@ class Player(pygame.sprite.Sprite):
         self.velocity = 0
         self.speed = 5
 
-    def update_texture(self, texture_path):
-        try:
-            original_image = pygame.image.load(texture_path)
-            self.image = pygame.transform.scale(original_image, (60, 80))
-        except:
-            pass
-
 # Game state
 class GameState:
     MENU = 0
@@ -122,7 +90,6 @@ class GameState:
 
 current_state = GameState.MENU
 
-# Create players (initially not visible)
 player1 = None
 player2 = None
 wall1_rect = None
@@ -131,18 +98,9 @@ wall2_rect = None
 def init_game():
     global player1, player2, wall1_rect, wall2_rect
 
-    # Convert ursina coordinates to pygame coordinates
-    # Ursina: (-4, -2) to pygame: approximately (150, 300)
-    player1_x = WINDOW_WIDTH // 4
-    player1_y = WINDOW_HEIGHT - 100
+    player1 = Player('assets/idlePlayer.png', ['assets/player1Punch1.png', 'assets/player1Punch2.png'], WINDOW_WIDTH / 4, WINDOW_HEIGHT - 100)
+    player2 = Player('assets/idlePlayer2.png', ['assets/player2Punch1.png', 'assets/player2Punch2.png'], 3 * WINDOW_WIDTH / 4, WINDOW_HEIGHT - 100)
 
-    player2_x = 3 * WINDOW_WIDTH // 4
-    player2_y = WINDOW_HEIGHT - 100
-
-    player1 = Player('assets/idlePlayer.png', ['assets/player1Punch1.png', 'assets/player1Punch2.png'], player1_x, player1_y)
-    player2 = Player('assets/idlePlayer2.png', ['assets/player2Punch1.png', 'assets/player2Punch2.png'], player2_x, player2_y)
-
-    # Create walls (invisible boundaries)
     wall1_rect = pygame.Rect(0, 0, 50, WINDOW_HEIGHT)
     wall2_rect = pygame.Rect(WINDOW_WIDTH - 50, 0, 50, WINDOW_HEIGHT)
 
@@ -151,21 +109,16 @@ def lerp(a, b, t):
     return a + (b - a) * t
 
 def draw_menu(screen):
-    # Draw background
-    if menu_background_img:
-        screen.blit(menu_background_img, (0, 0))
-    else:
-        screen.fill(BLACK)
+    screen.blit(menu_background_img, (0, 0))
 
-    # Create buttons
     button_width = 180
     button_height = 80
 
     play_button = Button(
         "Play Game",
         GREEN,
-        WINDOW_WIDTH // 4 - button_width // 2,
-        WINDOW_HEIGHT // 2 - button_height // 2,
+        WINDOW_WIDTH - button_width,
+        WINDOW_HEIGHT / 2 - button_height / 2,
         button_width,
         button_height,
         40
@@ -174,8 +127,8 @@ def draw_menu(screen):
     credits_button = Button(
         "Play Credits",
         BLUE,
-        3 * WINDOW_WIDTH // 4 - button_width // 2,
-        WINDOW_HEIGHT // 2 - button_height // 2,
+        0,
+        WINDOW_HEIGHT / 2 - button_height / 2,
         button_width,
         button_height,
         40
@@ -184,8 +137,8 @@ def draw_menu(screen):
     quit_button = Button(
         "Quit",
         RED,
-        WINDOW_WIDTH // 4 - button_width // 2,
-        3 * WINDOW_HEIGHT // 4 - button_height // 2,
+        WINDOW_WIDTH - button_width,
+        WINDOW_HEIGHT / 4 - button_height / 2,
         button_width,
         button_height,
         40
@@ -204,7 +157,7 @@ def draw_credits(screen):
         "Art: Max, Quinn, Andrew, Cedric, Mateo"
     ]
 
-    y_offset = WINDOW_HEIGHT // 4
+    y_offset = WINDOW_HEIGHT / 4
     for line in credits_lines:
         text_surface = font.render(line, True, WHITE)
         text_rect = text_surface.get_rect(center=(WINDOW_WIDTH // 2, y_offset))
@@ -228,10 +181,7 @@ def draw_game(screen, dt):
     global player1, player2
 
     # Draw background
-    if game_background_img:
-        screen.blit(game_background_img, (0, 0))
-    else:
-        screen.fill(VIOLET)
+    screen.blit(game_background_img, (0, 0))
 
     # Get pressed keys
     keys = pygame.key.get_pressed()
@@ -301,17 +251,13 @@ def draw_game(screen, dt):
     # Wall collision
     if player1.rect.left < 50:
         player1.rect.left = 50
-        player1.absolute_x = player1.rect.centerx
     if player1.rect.right > WINDOW_WIDTH - 50:
         player1.rect.right = WINDOW_WIDTH - 50
-        player1.absolute_x = player1.rect.centerx
 
     if player2.rect.left < 50:
         player2.rect.left = 50
-        player2.absolute_x = player2.rect.centerx
     if player2.rect.right > WINDOW_WIDTH - 50:
         player2.rect.right = WINDOW_WIDTH - 50
-        player2.absolute_x = player2.rect.centerx
 
     # Draw players
     screen.blit(player1.image, player1.rect)
@@ -334,24 +280,21 @@ def main():
                 running = False
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if current_state == GameState.MENU and menu_buttons:
+                if current_state == GameState.MENU:
                     play_btn, credits_btn, quit_btn = menu_buttons
 
                     if play_btn.is_clicked(mouse_pos):
-                        if sword_slash_sound:
-                            sword_slash_sound.play()
+                        sword_slash_sound.play()
                         init_game()
                         current_state = GameState.PLAYING
                     elif credits_btn.is_clicked(mouse_pos):
-                        if sword_slash_sound:
-                            sword_slash_sound.play()
+                        sword_slash_sound.play()
                         current_state = GameState.CREDITS
                     elif quit_btn.is_clicked(mouse_pos):
-                        if sword_slash_sound:
-                            sword_slash_sound.play()
+                        sword_slash_sound.play()
                         running = False
 
-                elif current_state == GameState.CREDITS and credits_button:
+                elif current_state == GameState.CREDITS:
                     if credits_button.is_clicked(mouse_pos):
                         current_state = GameState.MENU
 
