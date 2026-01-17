@@ -1,0 +1,39 @@
+<!--
+
+Steps:
+Create a javascript function in script tag that posts an xmlhttprequest to /picture
+
+In onclick handler, call that function
+
+In flask, handle that request by calling Liam's code to get a picture
+
+Base64 encode that data and return it
+
+Take the base64 response and unbase64 it in another javascript function
+
+Do the meme transformations
+
+Base64 encode it again
+
+Put that data as the data of an html <img> tag. It knows how to display base64 data
+
+-->
+<html>
+    <body>Point the camera to your face and take a picture when you're ready
+        <form>
+        <script>
+        function getPicture() {
+            const x = XMLHttpRequest()
+            x.open("GET", window.location.href +"/picture")
+            X.onload = function(){
+            const data = x.responseText
+            Console.log("the picture is"  + data)
+            }}
+        X.send()
+        </script>
+        <button>
+            Take Picture
+        </button>
+        </form>
+    </body>
+</html>
