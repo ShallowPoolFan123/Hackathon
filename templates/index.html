@@ -18,22 +18,60 @@ Base64 encode it again
 Put that data as the data of an html <img> tag. It knows how to display base64 data
 
 -->
+<!DOCTYPE html>
 <html>
-    <body>Point the camera to your face and take a picture when you're ready
-        <form>
-        <script>
-        function getPicture() {
-            const x = XMLHttpRequest()
-            x.open("GET", window.location.href +"/picture")
-            X.onload = function(){
-            const data = x.responseText
-            Console.log("the picture is"  + data)
-            }}
-        X.send()
-        </script>
-        <button>
-            Take Picture
-        </button>
-        </form>
-    </body>
+<head>
+  <meta charset="UTF-8">
+  <title>Meme Face‑Cam</title>
+</head>
+<body>
+  <p>Point the camera to your face and take a picture when you're ready</p>
+
+  <button id="snapBtn">Take Picture</button>
+  <img id="resultImg" alt="Result will appear here">
+
+  <script>
+    function postPicture() {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', '/picture');
+      xhr.responseType = 'blob';
+
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          const blob = xhr.response;
+          const reader = new FileReader();
+          reader.onloadend = function () {
+            const base64Data = reader.result;
+            const img = new Image();
+            img.onload = function () {
+              const canvas = document.createElement('canvas');
+              canvas.width = img.width;
+              canvas.height = img.height + 30;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0);
+              ctx.font = '20px sans-serif';
+              ctx.fillStyle = '#fff';
+              ctx.fillText('Meme', 10, canvas.height - 10);
+              canvas.toBlob(function (blob) {
+                const finalURL = URL.createObjectURL(blob);
+                const imgElement = document.getElementById('resultImg');
+                imgElement.src = finalURL;
+                URL.revokeObjectURL(finalURL);
+              }, 'image/png');
+            };
+            img.src = base64Data;
+          };
+          reader.readAsDataURL(blob);
+        } else {
+          console.error('Failed to fetch picture:', xhr.status);
+        }
+      };
+      xhr.onerror = function () {
+        console.error('Network error while fetching /picture');
+      };
+      xhr.send();
+    }
+    document.getElementById('snapBtn').addEventListener('click', postPicture);
+  </script>
+</body>
 </html>
